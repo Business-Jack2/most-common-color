@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
-using System.Colletions.Generic;
+using System.Collections.Generic;
 
 namespace most_common_color
 {
-	private Bitmap imgi;
 	public class Detector
 	{
-		public Detector(Bitmap image)
+        private Bitmap imgi;
+
+        public Detector(Bitmap image)
 		{
 			this.imgi = image;
 		}
@@ -27,7 +28,37 @@ namespace most_common_color
                     }
                 }
             }
-			if (B == 255)
+            if (R == 0)
+            {
+                if (G <= 255 && G >= 125)
+                {
+                    if (B <= 255 && B >= 125)
+                    {
+                        return "Cyan";
+                    }
+                }
+            }
+            if (R >= 200 && R <= 255)
+            {
+                if (B == 0)
+                {
+                    if (G >= 125 && G <= 255)
+                    {
+                        return "Yellow";
+                    }
+                }
+            }
+            if (R >= 125 && R <= 255)
+            {
+                if(G == 0)
+                {
+                    if (B >= 125 && B <= 255)
+                    {
+                        return "MAGENTA";
+                    }
+                }
+            }
+            if (B == 255)
             {
 				if (G <= 125)
                 {
@@ -47,13 +78,39 @@ namespace most_common_color
                     }
                 }
             }
+            return "";
         }
-		public Dictonary<String, int> coloRetrieval()
+		public Dictionary<String, int> colorRetrieval()
         {
+            int count = 0;
+            Dictionary<String, int> monkeys = new Dictionary<String, int>();
 			for (int i = 0; i < this.imgi.Width; i++)
             {
-
+                for (int j = 0; j < this.imgi.Height; j++)
+                {
+                    String whatisit = getColor(this.imgi.GetPixel(i, j));
+                    if (!monkeys.ContainsKey(whatisit)){
+                        monkeys.Add(whatisit, 0);
+                    }
+                    monkeys[whatisit]++;
+                }
             }
+            return monkeys;
+        }
+        public String theMost(Dictionary<String, int> colors)
+        {
+            int highest = 0;
+            String notlock = "";
+            foreach ( KeyValuePair<String, int> color in colors)
+            {
+                if (color.Value > highest)
+                {
+                    highest = color.Value;
+                    notlock = color.Key;
+                    Console.WriteLine(notlock);
+                }
+            }
+            return notlock;
         }
 	}
 }
