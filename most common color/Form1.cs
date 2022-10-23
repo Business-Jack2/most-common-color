@@ -1,4 +1,6 @@
+using System.IO;
 namespace most_common_color
+
 {
     public partial class Form1 : Form
     {
@@ -34,6 +36,7 @@ namespace most_common_color
                     }
                     // Console.WriteLine(fileContent);
                     newImage = new Bitmap(filePath);
+                    Console.WriteLine("will i work");
                     Detector detector = new Detector(newImage);
                     Dictionary<String, int> properties = detector.colorRetrieval();
                     String color = detector.theMost(properties);

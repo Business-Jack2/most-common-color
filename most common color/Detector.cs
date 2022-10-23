@@ -18,9 +18,9 @@ namespace most_common_color
 			byte R = color.R;
 			byte G = color.G;
 			byte B = color.B;
-			if (G < 255 && G > 225)
+			if (R > 0 && R < 125)
             {
-				if (R > 0 && R < 125)
+				if (G < 255 && G > 225)
                 {
 					if (B > 0 && B < 125)
                     {
@@ -40,9 +40,9 @@ namespace most_common_color
             }
             if (R >= 200 && R <= 255)
             {
-                if (B == 0)
+                if (G >= 125 && G <= 255)
                 {
-                    if (G >= 125 && G <= 255)
+                    if (B == 0)
                     {
                         return "Yellow";
                     }
@@ -58,16 +58,17 @@ namespace most_common_color
                     }
                 }
             }
-            if (B == 255)
+            if (R <= 125)
             {
 				if (G <= 125)
                 {
-					if (R <= 125)
+					if (B == 255)
                     {
 						return "Blue";
                     }
                 }
             }
+
 			if (R >= 225)
             {
 				if (G <= 125)
@@ -78,7 +79,27 @@ namespace most_common_color
                     }
                 }
             }
-            return "";
+            if (R >= 0 && R <= 30)
+            {
+                if (G >= 0 && G <= 30)
+                {
+                    if (B >= 0 && B <= 30)
+                    {
+                        return "back in black";
+                    }
+                }
+            }
+            if (R >= 230 && R <= 255)
+            {
+                if (G >= 230 && G <= 255)
+                {
+                    if (B >= 230 && B <= 255)
+                    {
+                        return "white";
+                    }
+                }
+            }
+            return "gray";
         }
 		public Dictionary<String, int> colorRetrieval()
         {
@@ -92,7 +113,7 @@ namespace most_common_color
                     if (!monkeys.ContainsKey(whatisit)){
                         monkeys.Add(whatisit, 0);
                     }
-                    monkeys[whatisit]++;
+                    monkeys[whatisit] = monkeys[whatisit] + 1;
                 }
             }
             return monkeys;
@@ -100,17 +121,29 @@ namespace most_common_color
         public String theMost(Dictionary<String, int> colors)
         {
             int highest = 0;
-            String notlock = "";
+            int secondhighest = 0;
+            int thirdhighest = 0;
+            String notlock = "hi";
+            String secondnotlock = "hi2";
+            String thirdlock = "hi3";
+            Console.WriteLine("please dont delete me");
             foreach ( KeyValuePair<String, int> color in colors)
             {
                 if (color.Value > highest)
                 {
                     highest = color.Value;
                     notlock = color.Key;
-                    Console.WriteLine(notlock);
                 }
             }
-            return notlock;
+            foreach (KeyValuePair<String, int> color in colors)
+            {
+                if (highest != secondhighest && color.Value > secondhighest)
+                {
+                    secondhighest = color.Value;
+                    secondnotlock = color.Key;
+                }
+            }
+            return String.Format("{0}, {1} \n {2}, {3}", notlock, highest, secondnotlock, secondhighest) ;
         }
 	}
 }
