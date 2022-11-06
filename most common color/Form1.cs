@@ -7,6 +7,7 @@ namespace most_common_color
         public Form1()
         {
             InitializeComponent();
+            label2.Text = "it works if your color blind";
         }
 
         private void button1_Click(object sender, EventArgs e)

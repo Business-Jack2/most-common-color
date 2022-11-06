@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Text;
 using System.Collections.Generic;
 
 namespace most_common_color
@@ -89,6 +90,20 @@ namespace most_common_color
                     }
                 }
             }
+            if(R == 37 && G == 150 && B == 190)
+            {
+                return "Brown";
+            }
+            if (R >= 176 && R <= 242)
+            {
+                if (G >= 110 && G <= 167)
+                {
+                    if (B >= 4 && B <= 46)
+                    {
+                        return "brownish idk i am tired";
+                    }
+                }
+            }
             if (R >= 230 && R <= 255)
             {
                 if (G >= 230 && G <= 255)
@@ -99,7 +114,7 @@ namespace most_common_color
                     }
                 }
             }
-            return "gray";
+            return "brown";
         }
 		public Dictionary<String, int> colorRetrieval()
         {
@@ -117,6 +132,24 @@ namespace most_common_color
                 }
             }
             return monkeys;
+        }
+        public String ToString(Dictionary<String, int> colors)
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (KeyValuePair<String, int> color in colors)
+            {
+                str.Append(String.Format("{0}:{1}\n", color.Key, color.Value));
+            }
+            return str.ToString();
+        }
+        public Dictionary<String, int> SortDict(Dictionary<String, int> colors)
+        {
+            Dictionary<String, int> tubular = new Dictionary<string, int>();
+            foreach (var color in colors.OrderByDescending(key => key.Value))
+            {
+                tubular.Add(color.Key, color.Value);
+            }
+            return tubular;
         }
         public String theMost(Dictionary<String, int> colors)
         {
@@ -143,7 +176,9 @@ namespace most_common_color
                     secondnotlock = color.Key;
                 }
             }
-            return String.Format("{0}, {1} \n {2}, {3}", notlock, highest, secondnotlock, secondhighest) ;
+
+            // return String.Format("{0}, {1} \n {2}, {3}", notlock, highest, secondnotlock, secondhighest) ;
+            return ToString(SortDict(colors));
         }
 	}
 }
